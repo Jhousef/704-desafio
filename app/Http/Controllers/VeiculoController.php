@@ -4,15 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Veiculo;
 use Illuminate\Http\Request;
+use App\Http\Repository\VeiculoRepository;
 
 class VeiculoController extends Controller
 {
+    public VeiculoRepository $veiculoRepository;
+
+    public function __construct(VeiculoRepository $veiculoRepository)
+    {
+        $this->veiculoRepository = $veiculoRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Veiculo::all();
+        return $this->veiculoRepository->all();
     }
 
     /**
@@ -20,9 +27,7 @@ class VeiculoController extends Controller
      */
     public function store(Request $request)
     {
-        $veiculo = Veiculo::create($request->all());
-
-        return $veiculo;
+        return $this->veiculoRepository->store($request->all());
     }
 
     /**

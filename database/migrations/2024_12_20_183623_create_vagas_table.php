@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vagas', function (Blueprint $table) {
+        Schema::create('entradas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('veiculo_id')->constrained();
             $table->datetime('horario_entrada')->nullable();
             $table->datetime('horario_saida')->nullable();
             $table->string('vaga')->nullable();
+            $table->unsignedBigInteger('veiculo_id');
+            $table->foreign('veiculo_id')->references('id')->on('veiculos');
             $table->timestamps();
         });
     }
@@ -26,6 +27,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vagas');
+        Schema::table('entradas', function (Blueprint $table) {
+            $table->dropForeign(['veiculo_id']);
+        });
+        Schema::dropIfExists('entradas');
     }
 };

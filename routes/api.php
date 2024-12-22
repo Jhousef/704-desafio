@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\VagaController;
+use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\VeiculoController;
-use App\Models\veiculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('/veiculos', VeiculoController::class);
-Route::apiResource('/vagas', VagaController::class);
+Route::apiResource('/entradas', EntradaController::class);

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('placa');
             $table->string('proprietario');
             $table->string('modelo')->nullable();
-            $table->string('ano')->nullable();
+            $table->date('ano')->nullable();
             $table->string('cor')->nullable();
             $table->timestamps();
         });
