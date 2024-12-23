@@ -24,11 +24,22 @@ class VeiculoValidateRequest extends FormRequest
         // ,{$veiculo->id}
         // $veiculo
         return [
-            'placa' => "required|unique:veiculos,placa",
+            'placa' => [
+                "required",
+                "unique:veiculos,placa",
+                'regex:/^[A-Z]{3}-[0-9]{4}$|^[A-Z]{3}[0-9]{1}[A-Z]{1}[0-9]{2}$/i'
+            ],
             'proprietario' => 'required|string|min:3|max:255',
             'modelo' => 'string|min:3|max:250',
             'ano' => 'date',
             'cor' => 'string|min:3',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'placa.regex' => 'O formato do campo placa precisa seguir os padrões: ABC1D23 ou ABC-1234',
         ];
     }
 }
