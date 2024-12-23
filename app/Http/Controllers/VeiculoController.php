@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Veiculo;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Repository\VeiculoRepository;
 use App\Http\Requests\VeiculoValidateRequest;
@@ -20,7 +21,11 @@ class VeiculoController extends Controller
      */
     public function index()
     {
-        return $this->veiculoRepository->all();
+        $data = $this->veiculoRepository->all();
+        return response()->json([
+            "status" => "success",
+            "data" => $data
+        ]);
     }
 
     /**
@@ -28,34 +33,81 @@ class VeiculoController extends Controller
      */
     public function store(VeiculoValidateRequest $request)
     {
-        return $this->veiculoRepository->store($request->all());
+
+        $data = $request->all();
+        $data['placa'] = Str::upper($request->placa);
+
+        $data = $this->veiculoRepository->store($data);
+
+        return response()->json([
+            'status' => 'sucess',
+            'message' => 'Cadastro realizado com sucesso!',
+            'data' => $data
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Veiculo $veiculo)
+    public function show($id)
     {
-        return $veiculo;
+        $veiculo = $this->veiculoRepository->find($id);
+
+        if(!$veiculo) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Veiculo não encontrado'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $veiculo
+        ]);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(VeiculoValidateRequest $request, Veiculo $veiculo)
+    public function update(VeiculoValidateRequest $request, int $id)
     {
-        $veiculo->update($request->all());
+        $veiculo = $this->veiculoRepository->find($id);
 
-        return $veiculo;
+        if(!$veiculo) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Veiculo não encontrado'
+            ], 404);
+        }
+
+        $data = $this->veiculoRepository->update($request->all(), $id);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Veiculo atualizado com sucesso!'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Veiculo $veiculo)
+    public function destroy(int $id)
     {
-        $veiculo->delete();
+        $veiculo = $this->veiculoRepository->find($id);
 
-        return $veiculo;
+        if(!$veiculo) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Veiculo não encontrado'
+            ], 404);
+        }
+
+        $data = $this->veiculoRepository->delete($id);
+
+        return response()->json([
+            "status" => "success",
+            "message" => "Veiculo excluido com sucesso!"
+        ]);
     }
 }

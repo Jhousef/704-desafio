@@ -15,4 +15,9 @@ class Entrada extends Model
         'horario_saida',
         'vaga',
     ];
+
+    public function veiculo()
+    {
+        return $this->belongsTo(Veiculo::class);
+    }
 }

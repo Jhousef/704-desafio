@@ -25,7 +25,11 @@ class EntradaController extends Controller
      */
     public function index()
     {
-        return $this->entradaRepository->all();
+        $data = $this->entradaRepository->all();
+        return response()->json([
+            "status" => "success",
+            "data" => $data
+        ]);
     }
 
     /**
@@ -47,34 +51,79 @@ class EntradaController extends Controller
             ], 422);
         }
 
-        return $this->entradaRepository->store($request->all());
+        $data = $this->entradaRepository->store($request->all());
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 422);
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Entrada $entrada)
+    public function show(int $id)
     {
-        return $entrada;
+        $entrada = $this->entradaRepository->find($id);
+
+        if(!$entrada) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Entrada não encontrado!'
+            ], 404);
+        }
+
+        $entrada->load('veiculo');
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $entrada
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(EntradaValidateRequest $request, Entrada $entrada)
+    public function update(EntradaValidateRequest $request, int $id)
     {
-        $entrada->update($request->all());
 
-        return $entrada;
+        $entrada = $this->entradaRepository->find($id);
+
+        if(!$entrada) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Entrada não encontrado'
+            ], 404);
+        }
+
+        $data = $this->entradaRepository->update($request->all(), $id);
+
+        return response()->json([
+            'status' => 'sucess',
+            'message' => 'Entrada atualizada com sucesso!'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Entrada $entrada)
+    public function destroy(int $id)
     {
-        $entrada->delete();
+        $entrada = $this->entradaRepository->find($id);
 
-        return $entrada;
+        if(!$entrada){
+            return response()->json([
+                "status" => false,
+                "messsage" => "Registro não encontrado"
+            ], 404);
+        }
+
+        $this->entradaRepository->delete($id);
+
+        return response()->json([
+            "status" => "success",
+            "message" => "Entrada excluida com suecsso!"
+        ]);
     }
 }

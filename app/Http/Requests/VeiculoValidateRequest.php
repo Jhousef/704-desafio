@@ -21,8 +21,10 @@ class VeiculoValidateRequest extends FormRequest
      */
     public function rules(): array
     {
+        // ,{$veiculo->id}
+        // $veiculo
         return [
-            'placa' => 'required|unique:veiculos,placa',
+            'placa' => "required|unique:veiculos,placa",
             'proprietario' => 'required|string|min:3|max:255',
             'modelo' => 'string|min:3|max:250',
             'ano' => 'date',

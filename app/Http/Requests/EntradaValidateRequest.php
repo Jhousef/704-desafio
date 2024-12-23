@@ -27,7 +27,7 @@ class EntradaValidateRequest extends FormRequest
             'vaga' => ['required','string','min:2'],
             'horario_entrada' => ['required','date'],
             'horario_saida' => ['date'],
-            'veiculo_id' => ['required'],
+            'veiculo_id' => ['required', 'exists:veiculos,id'],
         ];
     }
 }

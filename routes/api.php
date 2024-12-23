@@ -23,6 +23,6 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('/veiculos', VeiculoController::class);
 Route::apiResource('/entradas', EntradaController::class);
 
-Route::middleware('api')->post('/entradas', [EntradaController::class, 'store']);
+// Route::middleware('api')->post('/entradas', [EntradaController::class, 'store']);
 
 // Route::post('/entradas', [EntradaController::class, 'store']);
