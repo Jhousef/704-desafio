@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\EntradaController;
-use App\Http\Controllers\VeiculoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EntradaController;
+use App\Http\Controllers\VeiculoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +18,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::get('/veiculos', [VeiculoController::class, 'index']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::apiResource('/veiculos', VeiculoController::class);
-Route::apiResource('/entradas', EntradaController::class);
 
-// Route::middleware('api')->post('/entradas', [EntradaController::class, 'store']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('/entradas', EntradaController::class);
+    Route::post('/users', [UserController::class, 'store']);
+    Route::post('/veiculos', [VeiculoController::class, 'store']);
+    Route::get('/veiculos/{id}', [VeiculoController::class, 'show']);
+    Route::put('/veiculos/{id}', [VeiculoController::class, 'update']);
 
-// Route::post('/entradas', [EntradaController::class, 'store']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
