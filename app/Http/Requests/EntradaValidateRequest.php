@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class VagaValidateRequest extends FormRequest
+class EntradaValidateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +24,10 @@ class VagaValidateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'vaga' => 'required|string|min:3',
-            'horario_entrada' => 'required|datetime',
-            'horario_saida' => 'required|datetime',
-            'veiculo_id' => 'required',
+            'vaga' => ['required','string','min:2'],
+            'horario_entrada' => ['required','date'],
+            'horario_saida' => ['date'],
+            'veiculo_id' => ['required'],
         ];
     }
 }

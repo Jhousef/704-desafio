@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Veiculo;
 use Illuminate\Http\Request;
 use App\Http\Repository\VeiculoRepository;
+use App\Http\Requests\VeiculoValidateRequest;
 
 class VeiculoController extends Controller
 {
@@ -25,7 +26,7 @@ class VeiculoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(VeiculoValidateRequest $request)
     {
         return $this->veiculoRepository->store($request->all());
     }
@@ -41,7 +42,7 @@ class VeiculoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Veiculo $veiculo)
+    public function update(VeiculoValidateRequest $request, Veiculo $veiculo)
     {
         $veiculo->update($request->all());
 

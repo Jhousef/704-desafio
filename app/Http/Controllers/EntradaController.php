@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repository\EntradaRepository;
-use App\Http\Repository\VeiculoRepository;
 use App\Models\Entrada;
 use App\Models\Veiculo;
 use Illuminate\Http\Request;
+use App\Http\Repository\EntradaRepository;
+use App\Http\Repository\VeiculoRepository;
+use App\Http\Requests\EntradaValidateRequest;
+use App\Http\Requests\VeiculoValidateRequest;
 
 class EntradaController extends Controller
 {
@@ -29,7 +31,7 @@ class EntradaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EntradaValidateRequest $request)
     {
         $veiculo = $this->veiculoRepository->find($request->veiculo_id);
 
@@ -59,7 +61,7 @@ class EntradaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Entrada $entrada)
+    public function update(EntradaValidateRequest $request, Entrada $entrada)
     {
         $entrada->update($request->all());
 
