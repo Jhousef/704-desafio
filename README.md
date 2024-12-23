@@ -1,6 +1,6 @@
 # 704 App Desafio
 
-![tela](./capa.png)
+![tela](https://github.com/Jhousef/704-desafio/blob/main/capa.png)
 
 Crud de veículos para controle de um estacionamento.
 O objetivo é que o gestor de um estacionamento possa informar quando certo veículo entrar no estacionamento e quando sair.
